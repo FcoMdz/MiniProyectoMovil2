@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MiniProyecto2</string>
+    <string name="str_widget">Player</string>
 </resources>
