@@ -21,14 +21,6 @@ class WidgetConfig: Activity() {
         val intentOrigen = intent
         val params = intentOrigen.extras
 
-        btnNext = findViewById<ImageView>(R.id.btn_next)
-        btnPrev = findViewById<ImageView>(R.id.btn_prev)
-        btnPlay = findViewById<ImageView>(R.id.btn_play)
-
-        btnPlay.setOnClickListener{
-            Log.d("funciona","aa")
-        }
-
         widgetId = params!!.getInt(
             AppWidgetManager.EXTRA_APPWIDGET_ID,
             AppWidgetManager.INVALID_APPWIDGET_ID
@@ -36,8 +28,7 @@ class WidgetConfig: Activity() {
 
         setResult(Activity.RESULT_CANCELED)
         val appWidgetManager = AppWidgetManager.getInstance(this@WidgetConfig);
-        WidgetMusic.actualizarWidget(this,appWidgetManager,widgetId);
-
+        WidgetMusic.actualizarWidget(this,appWidgetManager, widgetId);
 
         val resultado = Intent();
         resultado.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,widgetId);
