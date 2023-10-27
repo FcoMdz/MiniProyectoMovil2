@@ -5,5 +5,6 @@
     android:maxHeight="80dip"
     android:label="@string/str_widget"
     android:updatePeriodMillis="1800000"
-    android:configure="com.example.miniproyecto2.WidgetConfig">
+    android:configure="com.example.miniproyecto2.WidgetConfig"
+    >
 </appwidget-provider>
