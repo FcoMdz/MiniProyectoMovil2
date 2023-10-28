@@ -144,6 +144,9 @@ class MusicService: Service() {
         val editor = prefs.edit()
         editor.putBoolean("play", false)
         editor.apply()
+        val updateWidgetIntent =  Intent(applicationContext, WidgetMusic::class.java)
+        updateWidgetIntent.action = "ACTUALIZAR_WIDGET_ACTION"
+        sendBroadcast(updateWidgetIntent)
         mediaPlayer?.release()
     }
 }
