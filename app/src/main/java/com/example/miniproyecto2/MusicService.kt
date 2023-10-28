@@ -41,7 +41,7 @@ class MusicService: Service() {
             val channel = NotificationChannel(
                 NOTIFICATION_CHANNEL_ID,
                 "Music Channel",
-                NotificationManager.IMPORTANCE_LOW
+                NotificationManager.IMPORTANCE_DEFAULT
             )
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
@@ -94,7 +94,8 @@ class MusicService: Service() {
                anterior()
             }
         }
-        val updateWidgetIntent = Intent("ACTUALIZAR_WIDGET_ACTION")
+        val updateWidgetIntent =  Intent(applicationContext, WidgetMusic::class.java)
+        updateWidgetIntent.action = "ACTUALIZAR_WIDGET_ACTION"
         sendBroadcast(updateWidgetIntent)
         return super.onStartCommand(intent, flags, startId)
     }

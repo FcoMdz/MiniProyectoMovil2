@@ -18,6 +18,9 @@ class WidgetMusic: AppWidgetProvider() {
         appWidgetManager: AppWidgetManager?,
         appWidgetIds: IntArray?
     ) {
+        val updateIntent = Intent(context, WidgetMusic::class.java)
+        updateIntent.action = "ACTUALIZAR_WIDGET_ACTION"
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, updateIntent, PendingIntent.FLAG_IMMUTABLE)
         if (appWidgetIds != null && context!=null) {
             val prefs = context.getSharedPreferences("ultMus", Activity.MODE_PRIVATE)
             val song = prefs.getInt("song", -1)
@@ -31,14 +34,15 @@ class WidgetMusic: AppWidgetProvider() {
     override fun onReceive(context: Context, intent: Intent?) {
         super.onReceive(context, intent)
         if (intent?.action == "ACTUALIZAR_WIDGET_ACTION") {
-            Log.d("Test", "Reciví update")
             // Aquí puedes realizar la actualización de la vista del widget
             // Llama a la función que actualiza el widget
             val prefs = context.getSharedPreferences("ultMus", Activity.MODE_PRIVATE)
             val song = prefs.getInt("song", -1)
             val play = prefs.getBoolean("play", false)
+
             val appWidget = AppWidgetManager.getInstance(context)
             val widgetIds = appWidget.getAppWidgetIds(ComponentName(context, WidgetMusic::class.java))
+            Log.d("Test", widgetIds.size.toString())
             for (i in widgetIds.indices){
                 val widgetId = widgetIds[i]
                 actualizarWidget(context, appWidget, widgetId, song, play)
@@ -66,6 +70,8 @@ class WidgetMusic: AppWidgetProvider() {
             }
             if(play){
                 controles.setImageViewResource(R.id.btn_play, R.drawable.btn_pause)
+            }else{
+                controles.setImageViewResource(R.id.btn_play, R.drawable.btn_play)
             }
             //Update del widget
             appWidgetManager?.updateAppWidget(widgetId, controles)
