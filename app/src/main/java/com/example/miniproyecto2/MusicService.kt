@@ -18,7 +18,8 @@ val rep = listOf(
     Repertorio("The paranormal", R.drawable.the_paranormal, R.raw.the_paranormal),
     Repertorio("Inside you", R.drawable.inside_you, R.raw.inside_you),
     Repertorio("Titanium", R.drawable.titanium, R.raw.titanium),
-    Repertorio("A long way", R.drawable.a_long_way, R.raw.a_long_way)
+    Repertorio("A long way", R.drawable.a_long_way, R.raw.a_long_way),
+    Repertorio("Lofi-Chill", R.drawable.lofi_chill, R.raw.lofi_chill_medium_version)
 )
 class MusicService: Service() {
     private var mediaPlayer: MediaPlayer? = null
