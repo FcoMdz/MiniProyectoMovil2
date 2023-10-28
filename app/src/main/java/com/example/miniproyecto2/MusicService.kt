@@ -70,6 +70,9 @@ class MusicService: Service() {
                     val editor = prefs.edit()
                     editor.putBoolean("play", true)
                     editor.apply()
+                    val updateWidgetIntent =  Intent(applicationContext, WidgetMusic::class.java)
+                    updateWidgetIntent.action = "ACTUALIZAR_WIDGET_ACTION"
+                    sendBroadcast(updateWidgetIntent)
                     mediaPlayer?.start()
 
                 }else if(activo && mediaPlayer?.isPlaying!!){
@@ -78,6 +81,9 @@ class MusicService: Service() {
                     val editor = prefs.edit()
                     editor.putBoolean("play", false)
                     editor.apply()
+                    val updateWidgetIntent =  Intent(applicationContext, WidgetMusic::class.java)
+                    updateWidgetIntent.action = "ACTUALIZAR_WIDGET_ACTION"
+                    sendBroadcast(updateWidgetIntent)
                     stopForeground(STOP_FOREGROUND_REMOVE)
                 }else{
                     val prefs = applicationContext.getSharedPreferences("ultMus", MODE_PRIVATE)
