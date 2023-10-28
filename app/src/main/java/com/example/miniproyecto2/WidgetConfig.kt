@@ -28,7 +28,10 @@ class WidgetConfig: Activity() {
 
         setResult(Activity.RESULT_CANCELED)
         val appWidgetManager = AppWidgetManager.getInstance(this@WidgetConfig);
-        WidgetMusic.actualizarWidget(this,appWidgetManager, widgetId);
+        val prefs = applicationContext.getSharedPreferences("ultMus", MODE_PRIVATE)
+        val song = prefs.getInt("song", -1)
+        val play = prefs.getBoolean("play", false)
+        WidgetMusic.actualizarWidget(this,appWidgetManager, widgetId, song, play);
 
         val resultado = Intent();
         resultado.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,widgetId);

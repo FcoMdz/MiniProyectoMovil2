@@ -5,7 +5,9 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.IBinder
@@ -63,51 +65,82 @@ class MusicService: Service() {
             "PLAY_ACTION" -> {
                 // Lógica para reproducir la canción
                 if(activo && !(mediaPlayer?.isPlaying!!)){
+                    val prefs = applicationContext.getSharedPreferences("ultMus", Context.MODE_PRIVATE)
+                    val editor = prefs.edit()
+                    editor.putBoolean("play", true)
+                    editor.apply()
                     mediaPlayer?.start()
 
                 }else if(activo && mediaPlayer?.isPlaying!!){
                     mediaPlayer?.pause()
+                    val prefs = applicationContext.getSharedPreferences("ultMus", Context.MODE_PRIVATE)
+                    val editor = prefs.edit()
+                    editor.putBoolean("play", false)
+                    editor.apply()
                     stopForeground(STOP_FOREGROUND_REMOVE)
                 }else{
-                    mediaPlayer?.reset()
-                    mediaPlayer?.setDataSource(resources.openRawResourceFd(rep[reproduciendo].sng))
-                    mediaPlayer?.prepare()
-                    mediaPlayer?.start()
-                    activo = true
+                    val prefs = applicationContext.getSharedPreferences("ultMus", MODE_PRIVATE)
+                    val song = prefs.getInt("song", 0)
+                    reproduciendo = song
+                    iniciarReproduccion()
                     startForeground(NOTIFICATION_ID, buildNotification())
                 }
             }
             "NEXT_ACTION" -> {
-                if(reproduciendo >= rep.size){
-                    reproduciendo = 0
-                }else{
-                    reproduciendo+=1
-                }
-                mediaPlayer?.reset()
-                mediaPlayer?.setDataSource(resources.openRawResourceFd(rep[reproduciendo].sng))
-                mediaPlayer?.prepare()
-                mediaPlayer?.start()
-                activo = true
+               sigiente()
             }
 
             "PREV_ACTION" -> {
-                if(reproduciendo <= 0){
-                    reproduciendo = rep.size-1
-                }else{
-                    reproduciendo -= 1
-                }
-                mediaPlayer?.reset()
-                mediaPlayer?.setDataSource(resources.openRawResourceFd(rep[reproduciendo].sng))
-                mediaPlayer?.prepare()
-                mediaPlayer?.start()
-                activo = true
+               anterior()
             }
         }
         return super.onStartCommand(intent, flags, startId)
     }
 
+    fun iniciarReproduccion(){
+        val prefs = applicationContext.getSharedPreferences("ultMus", Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.putInt("song", reproduciendo)
+        editor.putBoolean("play", true)
+        editor.apply()
+        mediaPlayer?.reset()
+        mediaPlayer?.setOnCompletionListener {
+            sigiente()
+        }
+        mediaPlayer?.setDataSource(resources.openRawResourceFd(rep[reproduciendo].sng))
+        mediaPlayer?.prepare()
+        mediaPlayer?.start()
+        activo = true
+    }
+
+    fun sigiente(){
+        if(reproduciendo >= rep.size-1){
+            reproduciendo = 0
+        }else{
+            reproduciendo+=1
+        }
+        iniciarReproduccion()
+    }
+    fun anterior(){
+        if(reproduciendo <= 0){
+            reproduciendo = rep.size-1
+        }else{
+            reproduciendo -= 1
+        }
+        mediaPlayer?.reset()
+        mediaPlayer?.setDataSource(resources.openRawResourceFd(rep[reproduciendo].sng))
+        mediaPlayer?.prepare()
+        mediaPlayer?.start()
+        activo = true
+        iniciarReproduccion()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        val prefs = applicationContext.getSharedPreferences("ultMus", Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.putBoolean("play", false)
+        editor.apply()
         mediaPlayer?.release()
     }
 }

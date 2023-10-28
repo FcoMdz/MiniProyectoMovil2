@@ -1,5 +1,6 @@
 package com.example.miniproyecto2
 
+import android.app.Activity
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -20,8 +21,10 @@ class WidgetMusic: AppWidgetProvider() {
         if (appWidgetIds != null && context!=null) {
             for (i in appWidgetIds.indices){
                 val widgetId = appWidgetIds[i]
-                //Listener de las acciones
-                actualizarWidget(context, appWidgetManager, widgetId)
+                val prefs = context.getSharedPreferences("ultMus", Activity.MODE_PRIVATE)
+                val song = prefs.getInt("song", -1)
+                val play = prefs.getBoolean("play", false)
+                actualizarWidget(context, appWidgetManager, widgetId, song, play)
             }
         }
     }
@@ -32,6 +35,8 @@ class WidgetMusic: AppWidgetProvider() {
             context: Context,
             appWidgetManager: AppWidgetManager?,
             widgetId: Int,
+            song:Int,
+            play:Boolean
         ){
             val controles = RemoteViews(context?.packageName, R.layout.widget_layout)
             controles.setOnClickPendingIntent(R.id.btn_play, getPendingSelfIntent(context, "PLAY_ACTION"))
@@ -39,10 +44,13 @@ class WidgetMusic: AppWidgetProvider() {
             controles.setOnClickPendingIntent(R.id.btn_prev, getPendingSelfIntent(context, "PREV_ACTION"))
 
             //Ajustando caratula
-            /*if(song!=-1){
+            if(song!=-1){
                 controles.setTextViewText(R.id.txt_nombreCancion, rep[song].nombre)
                 controles.setImageViewResource(R.id.img_cancion, rep[song].img)
-            }*/
+            }
+            if(play){
+                controles.setImageViewResource(R.id.btn_play, R.drawable.btn_pause)
+            }
             //Update del widget
             appWidgetManager?.updateAppWidget(widgetId, controles)
         }

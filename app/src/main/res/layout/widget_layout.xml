@@ -13,14 +13,14 @@
                 android:src="@drawable/no_music"
                 android:layout_column="0"
                 android:layout_row="0"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
+                android:layout_rowWeight="2"
                 android:layout_rowSpan="2"
+                android:layout_width="100dp"
                 />
 
             <TextView android:id="@+id/txt_nombreCancion"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
+                android:layout_height="50dp"
+                android:layout_columnWeight="3"
                 android:gravity="center"
                 android:text="No se ha seleccionado una canción"
                 android:textAlignment="center"
@@ -31,36 +31,41 @@
                 />
 
 
-
-            <ImageButton android:id="@+id/btn_prev"
+        <LinearLayout
+            android:layout_height="50dp"
+            android:layout_columnWeight="3"
+            android:layout_column="1"
+            android:layout_row="1"
+            android:layout_columnSpan="3"
+            android:baselineAligned="true"
+            >
+            <ImageButton
+                android:id="@+id/btn_prev"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
                 android:src="@drawable/btn_left"
                 android:scaleType="fitCenter"
-                android:layout_column="1"
-                android:layout_row="1"
-                android:layout_columnWeight="1"
-                android:layout_columnSpan="1"
-                android:layout_rowWeight="1"
                 android:background="@color/newBlack"
-                
+                android:layout_weight="1"
+
                 />
             <ImageButton android:id="@+id/btn_play"
-                android:layout_column="2"
-                android:layout_row="1"
-                android:layout_columnWeight="1"
-                android:layout_columnSpan="1"
-                android:layout_rowWeight="1"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
                 android:src="@drawable/btn_play"
                 android:scaleType="fitCenter"
                 android:background="@color/newBlack"
+                android:layout_weight="1"
                 />
-            <ImageButton android:id="@+id/btn_next"
-                android:layout_column="3"
-                android:layout_columnWeight="1"
-                android:layout_row="1"
-                android:layout_columnSpan="1"
-                android:layout_rowWeight="1"
+            <ImageButton
+                android:id="@+id/btn_next"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/btn_right"
                 android:background="@color/newBlack"
+                android:layout_weight="1"
                 />
+        </LinearLayout>
+
     </GridLayout>
