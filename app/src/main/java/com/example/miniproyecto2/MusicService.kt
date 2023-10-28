@@ -95,9 +95,6 @@ class MusicService: Service() {
                anterior()
             }
         }
-        val updateWidgetIntent =  Intent(applicationContext, WidgetMusic::class.java)
-        updateWidgetIntent.action = "ACTUALIZAR_WIDGET_ACTION"
-        sendBroadcast(updateWidgetIntent)
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -107,6 +104,9 @@ class MusicService: Service() {
         editor.putInt("song", reproduciendo)
         editor.putBoolean("play", true)
         editor.apply()
+        val updateWidgetIntent =  Intent(applicationContext, WidgetMusic::class.java)
+        updateWidgetIntent.action = "ACTUALIZAR_WIDGET_ACTION"
+        sendBroadcast(updateWidgetIntent)
         mediaPlayer?.reset()
         mediaPlayer?.setOnCompletionListener {
             sigiente()
