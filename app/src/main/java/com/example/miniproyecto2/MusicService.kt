@@ -94,6 +94,8 @@ class MusicService: Service() {
                anterior()
             }
         }
+        val updateWidgetIntent = Intent("ACTUALIZAR_WIDGET_ACTION")
+        sendBroadcast(updateWidgetIntent)
         return super.onStartCommand(intent, flags, startId)
     }
 

@@ -19,16 +19,32 @@ class WidgetMusic: AppWidgetProvider() {
         appWidgetIds: IntArray?
     ) {
         if (appWidgetIds != null && context!=null) {
+            val prefs = context.getSharedPreferences("ultMus", Activity.MODE_PRIVATE)
+            val song = prefs.getInt("song", -1)
+            val play = prefs.getBoolean("play", false)
             for (i in appWidgetIds.indices){
                 val widgetId = appWidgetIds[i]
-                val prefs = context.getSharedPreferences("ultMus", Activity.MODE_PRIVATE)
-                val song = prefs.getInt("song", -1)
-                val play = prefs.getBoolean("play", false)
                 actualizarWidget(context, appWidgetManager, widgetId, song, play)
             }
         }
     }
-
+    override fun onReceive(context: Context, intent: Intent?) {
+        super.onReceive(context, intent)
+        if (intent?.action == "ACTUALIZAR_WIDGET_ACTION") {
+            Log.d("Test", "Reciví update")
+            // Aquí puedes realizar la actualización de la vista del widget
+            // Llama a la función que actualiza el widget
+            val prefs = context.getSharedPreferences("ultMus", Activity.MODE_PRIVATE)
+            val song = prefs.getInt("song", -1)
+            val play = prefs.getBoolean("play", false)
+            val appWidget = AppWidgetManager.getInstance(context)
+            val widgetIds = appWidget.getAppWidgetIds(ComponentName(context, WidgetMusic::class.java))
+            for (i in widgetIds.indices){
+                val widgetId = widgetIds[i]
+                actualizarWidget(context, appWidget, widgetId, song, play)
+            }
+        }
+    }
 
     companion object{
         fun actualizarWidget(
