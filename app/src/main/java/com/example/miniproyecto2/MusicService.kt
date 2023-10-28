@@ -130,11 +130,6 @@ class MusicService: Service() {
         }else{
             reproduciendo -= 1
         }
-        mediaPlayer?.reset()
-        mediaPlayer?.setDataSource(resources.openRawResourceFd(rep[reproduciendo].sng))
-        mediaPlayer?.prepare()
-        mediaPlayer?.start()
-        activo = true
         iniciarReproduccion()
     }
 
