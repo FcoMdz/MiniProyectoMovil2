@@ -35,6 +35,10 @@ class MusicService: Service() {
         mediaPlayer = MediaPlayer()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel()
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            val notification = buildNotification()  // Actualiza la notificación según el estado actual
+            notificationManager.notify(NOTIFICATION_ID, notification)
+            startForeground(NOTIFICATION_ID, notification)
         }
     }
     private fun createNotificationChannel() {
