@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">MusicCover</string>
     <string name="str_widget">Player</string>
+    <string name="str_main">
+    Esta aplicacion es meramente complementaria
+    </string>
+    <string name="str_main2">
+    Para poder utilizar el reproductor de musica por favor agregue un widget
+    </string>
 </resources>
